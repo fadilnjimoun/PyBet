@@ -46,9 +46,9 @@ menu_lst = ['1. Context and objectives',
 
 st.sidebar.header(title)
 st.sidebar.write('Make a choice :')
-menu_sel = st.sidebar.selectbox('', menu_lst)
+menu_sel = st.sidebar.radio('', menu_lst)
 
-# Les auteurs
+# Autor
 st.sidebar.subheader('Autor')
 st.sidebar.write("""[Fadil NJIMOUN](https://www.linkedin.com/in/fadil-njimoun-a232ba101/)""")
 
@@ -138,13 +138,30 @@ if menu_sel == menu_lst[1]:
     
     st.subheader('Dataset overview')
     
-    if st.checkbox('Show the dataset'):       
+    if st.checkbox('Show the dataset sample...'):       
+        st.code(df.sample(10))
+    if st.checkbox('Show the entire dataset...'):       
         df
     
-    st.markdown("- <font color=" + 'blue' + ">*ATP*</font> : (*int*) ATP tournament number",              unsafe_allow_html=True)
-    st.markdown("- <font color=" + 'blue' + ">*Location*</font> : (*object*) Tournament city",              unsafe_allow_html=True)
-    st.markdown("- <font color=" + 'blue' + ">*Date*</font> : (*object*) Match day",              unsafe_allow_html=True)
-    st.markdown("- <font color=" + 'blue' + ">*Series*</font> : (*object*) Tournament type",              unsafe_allow_html=True)
+    if st.checkbox('Variables description : '):
+        st.markdown("- <font color=" + 'blue' + ">*ATP*</font> : (*int*) ATP tournament number",              unsafe_allow_html=True)
+        st.markdown("- <font color=" + 'blue' + ">*Location*</font> : (*object*) Tournament city",              unsafe_allow_html=True)
+        st.markdown("- <font color=" + 'blue' + ">*Date*</font> : (*object*) Match day",              unsafe_allow_html=True)
+        st.markdown("- <font color=" + 'blue' + ">*Torunament*</font> : (*object*) Tournament name",              unsafe_allow_html=True)
+        st.markdown("- <font color=" + 'blue' + ">*Date*</font> : (*datetime*) Date of the match",              unsafe_allow_html=True)
+        st.markdown("- <font color=" + 'blue' + ">*Series*</font> : (*object*) Tournament type",              unsafe_allow_html=True)
+        st.markdown("- <font color=" + 'blue' + ">*Court*</font> : (*object*) In or Outdoor",              unsafe_allow_html=True)
+        st.markdown("- <font color=" + 'blue' + ">*Surface*</font> : (*object*) Surface type",              unsafe_allow_html=True)
+        st.markdown("- <font color=" + 'blue' + ">*Round*</font> : (*object*) Competition stage",              unsafe_allow_html=True)
+        st.markdown("- <font color=" + 'blue' + ">*Best of*</font> : (*object*) Max set",              unsafe_allow_html=True)
+        st.markdown("- <font color=" + 'blue' + ">*Winner*</font> : (*object*) Match winner",              unsafe_allow_html=True)
+        st.markdown("- <font color=" + 'blue' + ">*Loser*</font> : (*object*) Match loser",              unsafe_allow_html=True)
+        st.markdown("- <font color=" + 'blue' + ">*WRank/LRank*</font> : (*object*) ATP winner and loser rankings",              unsafe_allow_html=True)
+        st.markdown("- <font color=" + 'blue' + ">*Comment*</font> : (*object*) Match completed or not",              unsafe_allow_html=True)
+        st.markdown("- <font color=" + 'blue' + ">*PSW/PSL*</font> : (*object*) Winner and loser Pinnacle odds",              unsafe_allow_html=True)
+        st.markdown("- <font color=" + 'blue' + ">*B365W/B365L*</font> : (*object*) Winner an loser Bet365 odds",              unsafe_allow_html=True)
+        st.markdown("- <font color=" + 'blue' + ">*elo_winner/loser*</font> : (*object*) elo rankig",              unsafe_allow_html=True)
+        st.markdown("- <font color=" + 'blue' + ">*proba_elo*</font> : (*object*) 'elo' probility of winning",              unsafe_allow_html=True)
 
     #######################################
     ## DUPLICATES PRESENCE               ##
@@ -203,19 +220,6 @@ win_loss.sort_values('w_per_match', ascending=False, inplace=True)
 labels = ['Very irregular player', 'Irregular player', 'Regular player', 'Very regular player']
 win_loss['cat_match'] = pd.cut(x=win_loss.matches, bins=4, labels=labels)
 
-winner_tampon = pd.DataFrame(df1[['Winner', 'Series']].value_counts()).reset_index()
-winner_tampon.rename({'Winner' : 'Player', 0: 'Winner'}, inplace=True, axis=1)
-loser_tampon = pd.DataFrame(df1[['Loser', 'Series']].value_counts()).reset_index()
-loser_tampon.rename({'Loser' : 'Player', 0: 'Loser'}, inplace=True, axis=1)
-win_loss_ser = winner_tampon.merge(right=loser_tampon, on=['Player','Series'], how='right'); win_loss_ser = win_loss_ser.fillna(0)
-win_loss_ser['matches'] = win_loss_ser.Winner + win_loss_ser.Loser
-win_loss_ser['w_per_match'] = round(win_loss_ser.Winner / win_loss_ser.matches,3)
-win_loss_ser.sort_values(by = ['w_per_match', 'Series'], ascending=False, inplace=True)
-win_loss_ser.set_index('Player', inplace=True)
-labels = ['Very irregular player', 'Irregular player', 'Regular player', 'Very regular player']
-win_loss_ser['cat_match'] = pd.cut(x=win_loss_ser.matches, bins=4, labels=labels)
-
-
     #######################################
     ## TOP WINNERS                       ##
     #######################################
@@ -261,10 +265,23 @@ if menu_sel == menu_lst[2]:
 
     st.subheader("Performance by...")
     
-    x_list = ['...by number of matches played', '...by tournament']
+    x_list = ['...by number of matches played', '...by series', '...by court type', '... by surface']
     abscissa = st.radio("Choose an abscissa :", x_list)
 
     if abscissa == x_list[0]:
+
+        winner_tampon = pd.DataFrame(df1[['Winner', 'Series']].value_counts()).reset_index()
+        winner_tampon.rename({'Winner' : 'Player', 0: 'Winner'}, inplace=True, axis=1)
+        loser_tampon = pd.DataFrame(df1[['Loser', 'Series']].value_counts()).reset_index()
+        loser_tampon.rename({'Loser' : 'Player', 0: 'Loser'}, inplace=True, axis=1)
+        win_loss_ser = winner_tampon.merge(right=loser_tampon, on=['Player','Series'], how='right'); win_loss_ser = win_loss_ser.fillna(0)
+        win_loss_ser['matches'] = win_loss_ser.Winner + win_loss_ser.Loser
+        win_loss_ser['w_per_match'] = round(win_loss_ser.Winner / win_loss_ser.matches,3)
+        win_loss_ser.sort_values(by = ['w_per_match', 'Series'], ascending=False, inplace=True)
+        win_loss_ser.set_index('Player', inplace=True)
+        labels = ['Very irregular player', 'Irregular player', 'Regular player', 'Very regular player']
+        win_loss_ser['cat_match'] = pd.cut(x=win_loss_ser.matches, bins=4, labels=labels)
+
         plt.figure(figsize=(13,7))
         sns.boxplot(x='cat_match', y='w_per_match', data=win_loss)
         plt.title('Performances distribution')
@@ -276,6 +293,45 @@ if menu_sel == menu_lst[2]:
         sns.boxplot(data=win_loss_ser, x='Series', y='w_per_match', hue='cat_match')
         plt.title('Distribution des performances'); st.pyplot()
         st.write('Performance and tournament type are dependent on each other.')
+
+    if abscissa == x_list[2]:
+
+        winner_tampon = pd.DataFrame(df1[['Winner', 'Court']].value_counts()).reset_index()
+        winner_tampon.rename({'Winner' : 'Player', 0: 'Winner'}, inplace=True, axis=1)
+        loser_tampon = pd.DataFrame(df1[['Loser', 'Court']].value_counts()).reset_index()
+        loser_tampon.rename({'Loser' : 'Player', 0: 'Loser'}, inplace=True, axis=1)
+        win_loss_cou = winner_tampon.merge(right=loser_tampon, on=['Player','Court'], how='right')
+        win_loss_cou = win_loss_cou.fillna(0)
+        win_loss_cou['matches'] = win_loss_cou.Winner + win_loss_cou.Loser
+        win_loss_cou['w_per_match'] = round(win_loss_cou.Winner / win_loss_cou.matches,3)
+        win_loss_cou.sort_values(by = ['w_per_match', 'Player', 'Court'], ascending=False, inplace=True)
+        win_loss_cou['cat_match'] = pd.cut(x=win_loss_cou.matches, bins=4, labels=labels)
+
+        plt.figure(figsize=(16,7))
+        sns.violinplot(data=win_loss_cou, x='Court', y='w_per_match', hue='cat_match')
+        plt.title('Distribution des performances');
+        st.pyplot()
+
+        st.write('There is dependancy between performance and court type.')
+
+    if abscissa == x_list[3]:
+        winner_tampon = pd.DataFrame(df1[['Winner', 'Surface']].value_counts()).reset_index()
+        winner_tampon.rename({'Winner' : 'Player', 0: 'Winner'}, inplace=True, axis=1)
+        loser_tampon = pd.DataFrame(df1[['Loser', 'Surface']].value_counts()).reset_index()
+        loser_tampon.rename({'Loser' : 'Player', 0: 'Loser'}, inplace=True, axis=1)
+        win_loss_sur = winner_tampon.merge(right=loser_tampon, on=['Player','Surface'], how='right')
+        win_loss_sur = win_loss_sur.fillna(0)
+        win_loss_sur['matches'] = win_loss_sur.Winner + win_loss_sur.Loser
+        win_loss_sur['w_per_match'] = round(win_loss_sur.Winner / win_loss_sur.matches,3)
+        win_loss_sur.sort_values(by = ['w_per_match', 'Player', 'Surface'], ascending=False, inplace=True)
+        win_loss_sur['cat_match'] = pd.cut(x=win_loss_sur.matches, bins=4, labels=labels)
+
+        plt.figure(figsize=(16,7))
+        sns.boxenplot(x=win_loss_sur.Surface, y=win_loss_sur.w_per_match, hue=win_loss_sur['cat_match'])
+        plt.title('Distribution des performances');
+        st.pyplot()
+
+        st.write('There is dependancy between performance and surface.')
 
 #######################################
 ## PART 4 : MACHINE LEARNING         ##
