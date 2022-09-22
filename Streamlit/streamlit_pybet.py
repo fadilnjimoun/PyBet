@@ -501,7 +501,8 @@ y_pred_lr = lr.predict(X_test)
 # Classification report
 print(classification_report(y_test, y_pred_lr))""")
 
-        lr = load(path_ml+'lr_pybet.joblib')
+        lr = LogisticRegression()
+        lr.fit(X_train, y_train)
         y_pred_lr = lr.predict(X_test) 
         st.code(classification_report(y_test, y_pred_lr)) 
 
@@ -541,7 +542,8 @@ y_pred_rf = knn.predict(X_test)
 # Classification report
 print(classification_report(y_test, y_pred_rf))""")
 
-        rf = load(path_ml+'rf_pybet.joblib')
+        rf = LogisticRegression()
+        rf.fit(X_train, y_train)
         y_pred_rf = rf.predict(X_test) 
         st.code(classification_report(y_test, y_pred_rf))
 
