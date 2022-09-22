@@ -270,7 +270,23 @@ if menu_sel == menu_lst[2]:
     x_list = ['...by number of matches played', '...by series', '...by court type', '... by surface']
     abscissa = st.radio("Choose an abscissa :", x_list)
 
+    labels = ['Very irregular player', 'Irregular player', 'Regular player', 'Very regular player']
+
     if abscissa == x_list[0]:
+
+        win_loss = pd.DataFrame(df1.Winner.value_counts()).join(pd.DataFrame(df1.Loser.value_counts()))
+        win_loss['w_per_match'] = round(win_loss.Winner / (win_loss.Winner + win_loss.Loser),3)
+        win_loss['matches'] = win_loss.Winner + win_loss.Loser
+        win_loss.sort_values('w_per_match', ascending=False, inplace=True)
+        win_loss['cat_match'] = pd.cut(x=win_loss.matches, bins=4, labels=labels)
+
+        plt.figure(figsize=(13,7))
+        sns.boxplot(x='cat_match', y='w_per_match', data=win_loss)
+        plt.title('Performances distribution')
+        st.pyplot()
+        st.write("The more matches we play, the better the performance. The more you play, the more chances you have of winning.")
+
+    if abscissa == x_list[1]:
 
         winner_tampon = pd.DataFrame(df1[['Winner', 'Series']].value_counts()).reset_index()
         winner_tampon.rename({'Winner' : 'Player', 0: 'Winner'}, inplace=True, axis=1)
@@ -281,16 +297,8 @@ if menu_sel == menu_lst[2]:
         win_loss_ser['w_per_match'] = round(win_loss_ser.Winner / win_loss_ser.matches,3)
         win_loss_ser.sort_values(by = ['w_per_match', 'Series'], ascending=False, inplace=True)
         win_loss_ser.set_index('Player', inplace=True)
-        labels = ['Very irregular player', 'Irregular player', 'Regular player', 'Very regular player']
         win_loss_ser['cat_match'] = pd.cut(x=win_loss_ser.matches, bins=4, labels=labels)
-
-        plt.figure(figsize=(13,7))
-        sns.boxplot(x='cat_match', y='w_per_match', data=win_loss)
-        plt.title('Performances distribution')
-        st.pyplot()
-        st.write("The more matches we play, the better the performance. The more you play, the more chances you have of winning.")
-
-    if abscissa == x_list[1]:
+        
         plt.figure(figsize=(16,7))
         sns.boxplot(data=win_loss_ser, x='Series', y='w_per_match', hue='cat_match')
         plt.title('Distribution des performances'); st.pyplot()
@@ -501,8 +509,8 @@ y_pred_lr = lr.predict(X_test)
 # Classification report
 print(classification_report(y_test, y_pred_lr))""")
 
-        lr = LogisticRegression()
-        lr.fit(X_train, y_train)
+        lr = load(path_ml+'lr_pybet.joblib')#lr = LogisticRegression() 
+        #lr.fit(X_train, y_train)
         y_pred_lr = lr.predict(X_test) 
         st.code(classification_report(y_test, y_pred_lr)) 
 
@@ -527,7 +535,7 @@ print(classification_report(y_test, y_pred_knn))""")
         st.code(classification_report(y_test, y_pred_knn)) 
 
     #######################################
-    ## RANDOM FOREST                              ##
+    ## RANDOM FOREST                     ##
     #######################################
     
     if sel_algo == 'Random Forest':
