@@ -17,7 +17,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
 
-
+from joblib import dump, load
 # Models evaluation
 from sklearn.metrics import classification_report, accuracy_score, roc_curve, auc
 
@@ -28,8 +28,10 @@ from sklearn.metrics import classification_report, accuracy_score, roc_curve, au
 
 #path_data = r'https://github.com/fadilnjimoun/PyBet---Bet/tree/main/Streamlit/Data/'
 path_data = r'Data/'
-#path_data = r'https://github.com/fadilnjimoun/PyBet---Bet/tree/main/Streamlit/Images/'
+#path_img = r'https://github.com/fadilnjimoun/PyBet---Bet/tree/main/Streamlit/Images/'
 path_imag = r'Images/'
+#path_ml = r'https://github.com/fadilnjimoun/PyBet---Bet/tree/main/Streamlit/Models/'
+path_ml = r'Models/'
 
 ###############################################################################
 ## MENU                                                                      ##
@@ -479,8 +481,7 @@ y_pred_dt = dt.predict(X_test)
 # Classification report
 print(classification_report(y_test, y_pred_dt))""")
 
-        dt = DecisionTreeClassifier()
-        dt.fit(X_train, y_train)
+        dt = load(path_ml+'dt_pybet.joblib')
         y_pred_dt = dt.predict(X_test) 
         st.code(classification_report(y_test, y_pred_dt))   
 
@@ -500,10 +501,49 @@ y_pred_lr = lr.predict(X_test)
 # Classification report
 print(classification_report(y_test, y_pred_lr))""")
 
-        lr = LogisticRegression(max_iter=1000)
-        lr.fit(X_train, y_train)
+        lr = load(path_ml+'lr_pybet.joblib')
         y_pred_lr = lr.predict(X_test) 
         st.code(classification_report(y_test, y_pred_lr)) 
+
+    #######################################
+    ## KNN                               ##
+    #######################################
+    
+    if sel_algo == 'KNN':
+        st.title('KNN')
+
+        if st.checkbox('Script'):
+            st.code("""knn = KNeighborsClassifier(2)
+# Model training
+knn.fit(X_train, y_train)
+# Model prediction
+y_pred_knn = knn.predict(X_test) 
+# Classification report
+print(classification_report(y_test, y_pred_knn))""")
+
+        knn = load(path_ml+'knn_pybet.joblib')
+        y_pred_knn = knn.predict(X_test) 
+        st.code(classification_report(y_test, y_pred_knn)) 
+
+    #######################################
+    ## RANDOM FOREST                              ##
+    #######################################
+    
+    if sel_algo == 'Random Forest':
+        st.title('RANDOM FOREST')
+
+        if st.checkbox('Script'):
+            st.code("""rf = RandomForestClassifier()
+# Model training
+rf.fit(X_train, y_train)
+# Model prediction
+y_pred_rf = knn.predict(X_test) 
+# Classification report
+print(classification_report(y_test, y_pred_rf))""")
+
+        rf = load(path_ml+'rf_pybet.joblib')
+        y_pred_rf = rf.predict(X_test) 
+        st.code(classification_report(y_test, y_pred_rf))
 
     st.subheader('Final Model')
 
