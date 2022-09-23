@@ -486,7 +486,7 @@ y_pred_dt = dt.predict(X_test)
 # Classification report
 print(classification_report(y_test, y_pred_dt))""")
 
-        dt = load('https://github.com/fadilnjimoun/PyBet/blob/main/Streamlit/Models/dt_pybet.joblib')#path_ml+'dt_pybet.joblib')
+        dt = load(path_ml+'dt_pybet.joblib')
         y_pred_dt = dt.predict(X_test) 
         st.code(classification_report(y_test, y_pred_dt))   
 
