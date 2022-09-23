@@ -26,7 +26,7 @@ from sklearn.metrics import classification_report, accuracy_score
 ###############################################################################
 
 path_data = 'https://raw.githubusercontent.com/fadilnjimoun/PyBet/main/Streamlit/Data/atp_data.csv'
-path_imag = 'https://raw.githubusercontent.com/fadilnjimoun/PyBet/main/Streamlit/Images/bookies.png'
+path_imag = 'https://raw.githubusercontent.com/fadilnjimoun/PyBet/main/Streamlit/Images/'
 path_ml = r'https://github.com/fadilnjimoun/PyBetBet/tree/main/Streamlit/Models/'
 path_ml = r'Streamlit/Models/'
 
@@ -70,7 +70,7 @@ If we bet €10 on team A whose odds are 1.2 for example:
     st.markdown("""The objective of this project is to try to **beat bookmakers' algorithms on estimating the probability of a team winning a tennis match**.
                     In a first step we will study and apply methods to clean the dataset. Once the dataset is clean, a second step is to extract from the match history the characteristics that seem to be relevant to estimate the performance of a player (ranking, type of tournament, etc.). Finally, from these features, we will estimate the probability that a player A beats a player B.
                  """)
-    st.image(path_imag)
+    st.image(path_imag+'bookies.png')
 ###############################################################################
 ## PART 2 : DATA EXPLORATION                                                 ##
 ###############################################################################
