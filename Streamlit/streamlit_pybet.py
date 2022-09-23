@@ -27,7 +27,8 @@ from sklearn.metrics import classification_report, accuracy_score
 
 path_data = 'https://raw.githubusercontent.com/fadilnjimoun/PyBet/main/Streamlit/Data/atp_data.csv'
 path_imag = 'https://raw.githubusercontent.com/fadilnjimoun/PyBet/main/Streamlit/Images/bookies.png'
-path_ml = r'https://github.com/fadilnjimoun/PyBet/tree/main/Streamlit/Models/'
+path_ml = r'https://github.com/fadilnjimoun/PyBetBet/tree/main/Streamlit/Models/'
+path_ml = r'Models/'
 
 ###############################################################################
 ## MENU                                                                      ##
@@ -485,7 +486,7 @@ y_pred_dt = dt.predict(X_test)
 # Classification report
 print(classification_report(y_test, y_pred_dt))""")
 
-        dt = load(str(https://github.com/fadilnjimoun/PyBet/blob/main/Streamlit/Models/dt_pybet.joblib))
+        dt = load(path_ml+'dt_pybet.joblib')
         y_pred_dt = dt.predict(X_test) 
         st.code(classification_report(y_test, y_pred_dt))   
 
