@@ -7,19 +7,18 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from datetime import datetime, timedelta
 
-from sklearn.model_selection import GridSearchCV, train_test_split, cross_val_score
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.preprocessing import StandardScaler, OneHotEncoder, LabelEncoder
 
 # Classification models that will be used
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
 
 from joblib import dump, load
 # Models evaluation
-from sklearn.metrics import classification_report, accuracy_score, roc_curve, auc
+from sklearn.metrics import classification_report, accuracy_score
 
 
 ###############################################################################
