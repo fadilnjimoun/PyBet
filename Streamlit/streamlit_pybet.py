@@ -27,8 +27,8 @@ from sklearn.metrics import classification_report, accuracy_score
 
 #path_data = r'https://raw.githubusercontent.com/fadilnjimoun/PyBet/main/Streamlit/Data/'
 path_data = r'Data/'
-#path_img = r'https://raw.githubusercontent.com/fadilnjimoun/PyBet/main/Streamlit/Images/'
-path_imag = r'Images/'
+path_imag = 'https://raw.githubusercontent.com/fadilnjimoun/PyBet/main/Streamlit/Images/'
+#path_imag = r'Images/'
 #path_ml = r'https://raw.githubusercontent.com/fadilnjimoun/PyBet/main/Streamlit/Models/'
 path_ml = r'Models/'
 
