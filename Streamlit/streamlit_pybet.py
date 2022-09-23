@@ -25,12 +25,9 @@ from sklearn.metrics import classification_report, accuracy_score
 ## INITIALISATION                                                            ##
 ###############################################################################
 
-#path_data = r'https://raw.githubusercontent.com/fadilnjimoun/PyBet/main/Streamlit/Data/'
-path_data = r'Data/'
-path_imag = 'https://raw.githubusercontent.com/fadilnjimoun/PyBet/main/Streamlit/Images/'
-#path_imag = r'Images/'
-#path_ml = r'https://raw.githubusercontent.com/fadilnjimoun/PyBet/main/Streamlit/Models/'
-path_ml = r'Models/'
+path_data = 'https://raw.githubusercontent.com/fadilnjimoun/PyBet/main/Streamlit/Data/atp_data.csv'
+path_imag = 'https://raw.githubusercontent.com/fadilnjimoun/PyBet/main/Streamlit/Images/bookies.png'
+path_ml = 'https://raw.githubusercontent.com/fadilnjimoun/PyBet/main/Streamlit/Models/dt_pybet.joblib'
 
 ###############################################################################
 ## MENU                                                                      ##
@@ -72,12 +69,12 @@ If we bet €10 on team A whose odds are 1.2 for example:
     st.markdown("""The objective of this project is to try to **beat bookmakers' algorithms on estimating the probability of a team winning a tennis match**.
                     In a first step we will study and apply methods to clean the dataset. Once the dataset is clean, a second step is to extract from the match history the characteristics that seem to be relevant to estimate the performance of a player (ranking, type of tournament, etc.). Finally, from these features, we will estimate the probability that a player A beats a player B.
                  """)
-    st.image('https://raw.githubusercontent.com/fadilnjimoun/PyBet/main/Streamlit/Images/bookies.png')
+    st.image('path_imag)
 ###############################################################################
 ## PART 2 : DATA EXPLORATION                                                 ##
 ###############################################################################
 
-df = pd.read_csv(path_data + 'atp_data.csv')
+df = pd.read_csv(path_data)
 
 def remove_space(nom):
     if type(nom) == str:
@@ -488,7 +485,7 @@ y_pred_dt = dt.predict(X_test)
 # Classification report
 print(classification_report(y_test, y_pred_dt))""")
 
-        dt = load(path_ml+'dt_pybet.joblib')
+        dt = load(path_ml)
         y_pred_dt = dt.predict(X_test) 
         st.code(classification_report(y_test, y_pred_dt))   
 
