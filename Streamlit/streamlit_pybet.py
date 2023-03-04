@@ -28,7 +28,7 @@ from sklearn.metrics import classification_report, accuracy_score
 path_data = 'https://raw.githubusercontent.com/fadilnjimoun/PyBet/main/Streamlit/Data/atp_data.csv'
 path_imag = 'https://raw.githubusercontent.com/fadilnjimoun/PyBet/main/Streamlit/Images/'
 path_ml = r'https://github.com/fadilnjimoun/PyBetBet/tree/main/Streamlit/Models/'
-path_ml = r'Streamlit/Models/'
+path_ml = r'Streamlit/Models/' #if local error use path_ml = r'Models/'
 
 ###############################################################################
 ## MENU                                                                      ##
@@ -396,12 +396,12 @@ le2 = LabelEncoder()
 
 le2.fit(data.loc[:,'player1'].append(data.loc[:,'player2'], ignore_index=True).drop_duplicates())
 
-X_train_cat_encod2 = pd.DataFrame({X_train_cat2.columns[0] : le1.fit_transform(X_train_cat2.iloc[:,0]),
-                                   X_train_cat2.columns[1] : le2.transform(X_train_cat2.iloc[:,1]),
-                                   X_train_cat2.columns[2] : le2.transform(X_train_cat2.iloc[:,2])}, index=X_train.index)
-X_test_cat_encod2 = pd.DataFrame({X_test_cat2.columns[0] : le1.fit_transform(X_test_cat2.iloc[:,0]),
-                                   X_test_cat2.columns[1] : le2.transform(X_test_cat2.iloc[:,1]),
-                                   X_test_cat2.columns[2] : le2.transform(X_test_cat2.iloc[:,2])}, index=X_test.index)
+X_train_cat_encod2 = pd.DataFrame({X_train_cat2.columns[0] : le1.fit_transform(X_train_cat2[X_train_cat2.columns[0]]),
+                                   X_train_cat2.columns[1] : le2.transform(X_train_cat2[X_train_cat2.columns[1]]),
+                                   X_train_cat2.columns[2] : le2.transform(X_train_cat2[X_train_cat2.columns[2]])}, index=X_train.index)
+X_test_cat_encod2 = pd.DataFrame({X_test_cat2.columns[0] : le1.fit_transform(X_test_cat2[X_test_cat2.columns[0]]),
+                                   X_test_cat2.columns[1] : le2.transform(X_test_cat2[X_test_cat2.columns[1]]),
+                                   X_test_cat2.columns[2] : le2.transform(X_test_cat2[X_test_cat2.columns[2]])}, index=X_test.index)
 
 X_train = pd.concat([X_train_cat_encod1, X_train_cat_encod2, X_train_num_scaled], axis=1)
 X_test = pd.concat([X_test_cat_encod1, X_test_cat_encod2, X_test_num_scaled], axis=1)
