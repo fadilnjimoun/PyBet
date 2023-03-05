@@ -387,8 +387,8 @@ X_test_num_scaled = pd.DataFrame(scaler.transform(X_test_num), index=X_test.inde
 # We encode our categorical values :
 oneh = OneHotEncoder(handle_unknown = 'ignore')
 
-X_train_cat_encod1 = pd.DataFrame(oneh.fit_transform(X_train_cat1), index=X_train.index, columns = oneh.get_feature_names())
-X_test_cat_encod1 = pd.DataFrame(oneh.transform(X_test_cat1), index=X_test.index, columns = oneh.get_feature_names())
+X_train_cat_encod1 = pd.DataFrame(oneh.fit_transform(X_train_cat1).toarray(), index=X_train.index, columns = oneh.get_feature_names_out())
+X_test_cat_encod1 = pd.DataFrame(oneh.transform(X_test_cat1).toarray(), index=X_test.index, columns = oneh.get_feature_names_out())
 
 # We encode our categorical values :
 le1 = LabelEncoder()
